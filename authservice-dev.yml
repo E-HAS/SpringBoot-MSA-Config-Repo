@@ -3,10 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:30036/msa_db?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:30036}/${MYSQL_DATABASE:msa_db}?characterEncoding=UTF-8&serverTimezone=UTC
     #url: jdbc:mariadb://127.0.0.1:3306/msa_db?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: rootpassword
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     #driver-class-name: org.mariadb.jdbc.Driver
   jpa:
@@ -23,10 +23,11 @@ spring:
       password: rootpassword
   data:
     redis:
-      host: 127.0.0.1
-      port: 30379
-      password: rootpassword
-      timeout: 60000
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:30379}
+      password: ${REDIS_PASSWORD}
+      timeout: 2s
+      connect-timeout: 2s
       
 logging:
   level:
@@ -53,15 +54,22 @@ logging:
 
 jwt:
   header : Authorization #X-AUTH-TOKEN
-  secretkey : secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
+  secretkey : ${JWT_SECRET} 
   access-Token-expiration : 3600000    # 60 * 60 * 1000L ( 1시간 )
   refresh-token-expiration : 604800000 #7 * 24 * 60 * 60 * 1000L ( 7일 )
 
 management:
+  server:
+    port: 9001                          
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
 value:
   security:
     allow-ip-list: 127.0.0.1, 192.168.1.128, 192.168.1.101, 192.168.1.102

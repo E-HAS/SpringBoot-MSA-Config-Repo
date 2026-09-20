@@ -1,17 +1,24 @@
 server:
   port: 8001
+  shutdown: graceful          # K8s 롤링 업데이트 시 처리 중인 요청 마무리
 
 spring:
   main:
     web-application-type: reactive
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   data:
     redis:
-      host: 127.0.0.1
-      port: 30379
-      password: rootpassword
-      timeout: 60000
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:30379}
+      password: ${REDIS_PASSWORD}
+      timeout: 2s
+      connect-timeout: 2s
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 3000            
+        response-timeout: 10s
       default-filters:
         - name : GlobalFilter
           args :
@@ -21,7 +28,7 @@ spring:
       routes:
         - id : authservice
           #uri: http://authservice-service:8080
-          uri : https://127.0.0.1:443
+          uri : ${AUTH_SERVICE_URI:https://127.0.0.1:443}
           predicates : 
             - Path=/auth/**
           filters:
@@ -35,12 +42,14 @@ spring:
                   - GET:/address/*
                   - POST:/jwt/reissue
                   #유저등록, 유저 로그인
+            
 
 jwt:
   header : Authorization #X-AUTH-TOKEN
-  secretkey : secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
+  secretkey : ${JWT_SECRET} 
   access-Token-expiration : 3600000    # 60 * 60 * 1000L ( 1시간 )
   refresh-token-expiration : 604800000 #7 * 24 * 60 * 60 * 1000L ( 7일 )
+
 
 logging:
   level:
@@ -66,7 +75,14 @@ logging:
     javax.management.remote.rmi: WARN
 
 management:
+  server:
+    port: 9001                          
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
