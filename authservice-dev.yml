@@ -1,7 +1,10 @@
 server:
   port: 443
+  shutdown: graceful          # K8s 롤링 업데이트 시 처리 중인 요청 마무리
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:30036}/${MYSQL_DATABASE:msa_db}?characterEncoding=UTF-8&serverTimezone=UTC
     #url: jdbc:mariadb://127.0.0.1:3306/msa_db?characterEncoding=UTF-8&serverTimezone=UTC
@@ -72,7 +75,7 @@ management:
       show-details: never
 value:
   security:
-    allow-ip-list: 127.0.0.1, 192.168.1.128, 192.168.1.101, 192.168.1.102
+    allow-ip-list: 127.0.0.1, 192.168.1.128, 192.168.1.101, 192.168.1.102, 192.168.1.106
   kafka:
     producer:
       bootstrap-servers: 127.0.0.1:9092

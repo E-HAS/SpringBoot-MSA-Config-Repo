@@ -36,12 +36,11 @@ spring:
             - name : JwtAuthenticationFilter
               args :
                 excludePaths :
-                  - POST:/users
-                  - POST:/users/*
+                  - POST:/login/*
+                  - POST:/logout/*
                   - GET:/address
                   - GET:/address/*
                   - POST:/jwt/reissue
-                  #유저등록, 유저 로그인
             
 
 jwt:
