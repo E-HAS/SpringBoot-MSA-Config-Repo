@@ -61,9 +61,7 @@ jwt:
   access-Token-expiration : 3600000    # 60 * 60 * 1000L ( 1시간 )
   refresh-token-expiration : 604800000 #7 * 24 * 60 * 60 * 1000L ( 7일 )
 
-management:
-  server:
-    port: 9001                          
+management:                        
   endpoints:
     web:
       exposure:
