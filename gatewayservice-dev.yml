@@ -38,6 +38,7 @@ spring:
                 excludePaths :
                   - POST:/login/*
                   - POST:/logout/*
+                  - POST:/users
                   - GET:/address
                   - GET:/address/*
                   - POST:/jwt/reissue
