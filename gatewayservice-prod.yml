@@ -52,7 +52,7 @@ jwt:
 logging:
   level:
     com.msa.gateway: DEBUG
-    org.springframework.cloud.gateway: DEBU
+    org.springframework.cloud.gateway: DEBUG
 
 management:
   server:
