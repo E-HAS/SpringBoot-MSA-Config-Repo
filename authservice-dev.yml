@@ -36,7 +36,11 @@ logging:
   level:
     ROOT: DEBUG
     com.msa.auth: DEBUG
-    org.hibernate: DEBUG
+
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    sun.rmi.transport.tcp: OFF
+    javax.management.remote.rmi: OFF
 
 jwt:
   header : Authorization #X-AUTH-TOKEN
