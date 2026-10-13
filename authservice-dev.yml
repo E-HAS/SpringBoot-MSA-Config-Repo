@@ -39,8 +39,13 @@ logging:
 
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+
+    sun.rmi: OFF
+    sun.rmi.loader: OFF
+    sun.rmi.transport: OFF
     sun.rmi.transport.tcp: OFF
-    javax.management.remote.rmi: OFF
+    
+    com.zaxxer.hikari: INFO
 
 jwt:
   header : Authorization #X-AUTH-TOKEN
