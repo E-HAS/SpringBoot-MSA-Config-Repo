@@ -27,8 +27,7 @@ spring:
             postLogger  : true
       routes:
         - id : authservice
-          uri: https://authservice-service:443
-          #uri : https://127.0.0.1:443
+          uri: https://auth-service:443
           predicates : 
             - Path=/auth/**
           filters:
