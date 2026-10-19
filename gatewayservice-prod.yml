@@ -9,9 +9,9 @@ spring:
     timeout-per-shutdown-phase: 20s
   data:
     redis:
-      host: redis-service
+      host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD}
+      password: ${REDIS_PASSWORD:rootpassword}
       timeout: 2s
       connect-timeout: 2s
   cloud:
