@@ -47,6 +47,17 @@ jwt:
   access-Token-expiration : 3600000    # 60 * 60 * 1000L ( 1시간 )
   refresh-token-expiration : 604800000 #7 * 24 * 60 * 60 * 1000L ( 7일 )
 
+value:
+  kafka:
+    bootstrap-servers: kafka-service:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    topics:
+      user: user-topic
+      product: product-topic
+      order: order-topic
+      log: log-topic
+
 logging:
   level:
     com.msa.gateway: INFO
