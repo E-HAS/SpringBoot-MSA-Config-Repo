@@ -1,0 +1,68 @@
+server:
+  port: 514
+  shutdown: graceful          # K8s 롤링 업데이트 시 처리 중인 요청 마무리
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:30036}/${MYSQL_DATABASE:msa_db}?characterEncoding=UTF-8&serverTimezone=UTC
+    #url: jdbc:mariadb://127.0.0.1:3306/msa_db?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        show_sql: true         #모든 SQL문을 콘솔로 출력
+        format_sql: true       #JPA 실행쿼리 가독성있게 표현
+        use_sql_comments: true #SQL문 이외에 추가적인 정보 출력
+        dialect: org.hibernate.dialect.MariaDBDialect
+  security:
+    user:
+      name: root
+      password: rootpassword
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:30379}
+      password: ${REDIS_PASSWORD}
+      timeout: 2s
+      connect-timeout: 2s
+      
+logging:
+  level:
+    ROOT: DEBUG
+    com.msa.auth: DEBUG
+
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+    sun.rmi: OFF
+    sun.rmi.loader: OFF
+    sun.rmi.transport: OFF
+    sun.rmi.transport.tcp: OFF
+    
+    com.zaxxer.hikari: INFO
+
+value:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVICE_URI:127.0.0.1:9092}
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    topics:
+      log: log-topic
+      
+management:                        
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+ 

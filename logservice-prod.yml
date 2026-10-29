@@ -1,0 +1,50 @@
+server:
+  port: 514
+  shutdown: graceful          # K8s 롤링 업데이트 시 처리 중인 요청 마무리
+
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:db}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:rootpassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        show_sql: true         #모든 SQL문을 콘솔로 출력
+        format_sql: true       #JPA 실행쿼리 가독성있게 표현
+        use_sql_comments: true #SQL문 이외에 추가적인 정보 출력
+        dialect: org.hibernate.dialect.MariaDBDialect
+  security:
+    user:
+      name: root
+      password: rootpassword
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:rootpassword}
+      timeout: 2s
+      connect-timeout: 2s
+      
+logging:
+  level:
+    ROOT: INFO
+    org.hibernate: INFO
+
+value:
+  kafka:
+    bootstrap-servers: kafka-service:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    topics:
+      log: log-topic
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+ 

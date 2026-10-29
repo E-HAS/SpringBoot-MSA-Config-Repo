@@ -1,5 +1,6 @@
 server:
   port: 8001
+  shutdown: graceful          # K8s 롤링 업데이트 시 처리 중인 요청 마무리
 
 spring:
   main:

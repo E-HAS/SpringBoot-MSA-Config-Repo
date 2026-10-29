@@ -52,7 +52,7 @@ jwt:
 
 value:
   kafka:
-    bootstrap-servers: ${KAFKA_SERVICE_URI:https://127.0.0.1:443}
+    bootstrap-servers: ${KAFKA_SERVICE_URI:127.0.0.1:9092}
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
     topics:
