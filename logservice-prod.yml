@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:db}?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:log_db}?characterEncoding=UTF-8&serverTimezone=UTC
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:rootpassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,8 +37,14 @@ logging:
 value:
   kafka:
     bootstrap-servers: kafka-service:9092
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+          group-id: ${KAFKA_GROUP_ID:order-service-group}
+          auto-offset-reset: earliest
+          enable-auto-commit: false
+          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          partition-assignment-strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+          concurrency: 3
     topics:
       log: log-topic
       

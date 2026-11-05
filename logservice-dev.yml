@@ -6,8 +6,8 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 20s
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:30036}/${MYSQL_DATABASE:msa_db}?characterEncoding=UTF-8&serverTimezone=UTC
-    #url: jdbc:mariadb://127.0.0.1:3306/msa_db?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:30036}/${MYSQL_DATABASE:log_db}?characterEncoding=UTF-8&serverTimezone=UTC
+    #url: jdbc:mariadb://127.0.0.1:3306/log_db?characterEncoding=UTF-8&serverTimezone=UTC
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -50,8 +50,14 @@ logging:
 value:
   kafka:
     bootstrap-servers: ${KAFKA_SERVICE_URI:127.0.0.1:9092}
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+          group-id: ${KAFKA_GROUP_ID:order-service-group}
+          auto-offset-reset: earliest
+          enable-auto-commit: false
+          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          partition-assignment-strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+          concurrency: 3
     topics:
       log: log-topic
       
