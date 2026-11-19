@@ -60,6 +60,9 @@ value:
       product: product-topic
       order: order-topic
       log: log-topic
+      log-req-topic: reqLogs
+      log-step-topic: stepLogs
+      log-res-topic: resLogs
       
 logging:
   level:
