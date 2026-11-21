@@ -47,6 +47,9 @@ value:
           concurrency: 3
     topics:
       log: log-topic
+      log-req-topic: reqLogs
+      log-step-topic: stepLogs
+      log-res-topic: resLogs
       
 management:
   endpoints:
