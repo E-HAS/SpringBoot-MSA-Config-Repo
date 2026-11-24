@@ -20,6 +20,10 @@ spring:
         format_sql: true       #JPA 실행쿼리 가독성있게 표현
         use_sql_comments: true #SQL문 이외에 추가적인 정보 출력
         dialect: org.hibernate.dialect.MariaDBDialect
+        jdbc:
+          batch_size: 1000
+        order_inserts: true
+        order_updates: true
   security:
     user:
       name: root
@@ -31,6 +35,7 @@ spring:
       password: ${REDIS_PASSWORD}
       timeout: 2s
       connect-timeout: 2s
+      database: 0
       
 logging:
   level:
@@ -48,6 +53,18 @@ logging:
     com.zaxxer.hikari: INFO
 
 value:
+  log:
+    storage:
+      base-dir: ./data/log-spool
+      flush-batch-size: 2000
+      flush-interval-ms: 1000
+      process-interval-ms: 1000
+      max-files-per-cycle: 50
+      db-chunk-size: 1000
+      max-orphan-retry: 5
+      req-cache-ttl-ms: 180000
+      redis-loaded-ttl-seconds: 600 
+      redis-recent-buckets-limit: 30
   kafka:
     bootstrap-servers: ${KAFKA_SERVICE_URI:127.0.0.1:9092}
     consumer:
