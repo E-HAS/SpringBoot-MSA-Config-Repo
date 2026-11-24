@@ -64,7 +64,15 @@ value:
       log-req-topic: reqLogs
       log-step-topic: stepLogs
       log-res-topic: resLogs
-      
+    producer:
+      delivery-timeout-ms: 15000
+      request-timeout-ms: 5000
+      max-block-ms: 1000
+
+auth:
+  log:
+    propagate-steps-to-gateway: true
+
 management:                        
   endpoints:
     web:
